@@ -1,0 +1,18 @@
+[Unit]
+Description=YouTube -> audio Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=ytaudio
+WorkingDirectory=/opt/ytaudio
+# В .env: BOT_TOKEN=..., OWNER_ID=..., при необходимости COOKIES_FILE=/opt/ytaudio/cookies.txt
+EnvironmentFile=/opt/ytaudio/.env
+# deno и ffmpeg должны быть видны сервису
+Environment=PATH=/opt/ytaudio/venv/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/ytaudio/venv/bin/python bot.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
